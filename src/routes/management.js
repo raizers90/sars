@@ -38,4 +38,23 @@ router.post('/reports/generate', [
 // Alerts
 router.get('/alerts', paginationValidator, validateRequest, getAllAlerts);
 
+// Demo simulator controls (management can also trigger)
+const { startSimulator, stopSimulator, setScenario, getStatus } = require('../services/demoSimulator');
+const { success, badRequest } = require('../utils/response');
+router.get('/demo/status', (req, res) => success(res, getStatus(), 'Simulator status'));
+router.post('/demo/start', async (req, res) => {
+  const { scenario = 'normal', interval_seconds = 10 } = req.body;
+  const result = await startSimulator({ scenario, interval_seconds });
+  success(res, result, result.message);
+});
+router.post('/demo/stop', (req, res) => {
+  const result = stopSimulator();
+  success(res, result, result.message);
+});
+router.post('/demo/scenario', [body('scenario').notEmpty()], validateRequest, (req, res) => {
+  const result = setScenario(req.body.scenario);
+  if (!result.ok) return badRequest(res, result.message);
+  success(res, result, result.message);
+});
+
 module.exports = router;

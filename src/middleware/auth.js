@@ -34,19 +34,12 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-// Device authentication (wristband/smartwatch API key)
+// Device authentication — no API key required in demo mode
 const authenticateDevice = (req, res, next) => {
-  const apiKey = req.headers['x-device-key'] || req.headers['x-api-key'];
   const deviceId = req.headers['x-device-id'] || req.body?.device_id;
-
-  if (!apiKey || apiKey !== process.env.DEVICE_API_KEY) {
-    return unauthorized(res, 'Invalid device API key');
-  }
-
   if (!deviceId) {
-    return unauthorized(res, 'Device ID required');
+    return unauthorized(res, 'Device ID required (send as X-Device-Id header or device_id body field)');
   }
-
   req.deviceId = deviceId;
   next();
 };

@@ -6,7 +6,7 @@ const { validateRequest } = require('../middleware/validateRequest');
 const { healthReadingValidator, paginationValidator } = require('../utils/validators');
 const { deviceLimiter } = require('../middleware/rateLimiter');
 
-// Device data ingestion endpoint — authenticated via device API key
+// Device data ingestion — open in demo mode, only needs device_id
 router.post('/readings/ingest', deviceLimiter, authenticateDevice, healthReadingValidator, validateRequest, ingestReading);
 
 // Elderly self-service endpoints — authenticated via JWT
