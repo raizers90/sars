@@ -6,7 +6,7 @@ const logger = require('../utils/logger');
 
 const seed = async () => {
   await sequelize.authenticate();
-  await sequelize.sync({ alter: true });
+  await sequelize.sync({ force: false });
 
   // Admin
   const [admin] = await User.findOrCreate({

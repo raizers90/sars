@@ -84,7 +84,6 @@ const ElderlyProfile = sequelize.define(
     device_id: {
       type: DataTypes.STRING(100),
       allowNull: true,
-      unique: true,
       comment: 'Wristband/smartwatch device identifier',
     },
     device_type: {
@@ -118,7 +117,7 @@ const ElderlyProfile = sequelize.define(
     tableName: 'elderly_profiles',
     indexes: [
       { fields: ['user_id'] },
-      { fields: ['device_id'] },
+      { unique: true, fields: ['device_id'] },
       { fields: ['health_status'] },
       { fields: ['is_active'] },
     ],
